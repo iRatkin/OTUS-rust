@@ -68,5 +68,4 @@ fn main() {
 
     let report1 = home.create_report(&devices_info_provider);
     println!("Report #1: {report1}");
-
 }

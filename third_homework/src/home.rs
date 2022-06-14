@@ -29,6 +29,22 @@ impl Home {
         ids
     }
 
+    pub fn get_room_names(&self) -> Vec<&str> {
+        let mut rooms = Vec::new();
+        for room in &self.rooms {
+            rooms.push(room.0.to_owned());
+        }
+        rooms
+    }
+
+    pub fn get_devices_names(&mut self, room_name: &'static str) -> Vec<&str> {
+        let room = match self.rooms.entry(room_name) {
+            std::collections::hash_map::Entry::Occupied(o) => o.into_mut(),
+            std::collections::hash_map::Entry::Vacant(_v) => panic!("There is no room with such name"),
+        };
+        room.get_devices_names()
+    }
+
     pub fn create_report(&self, info_provider: &impl DeviceInfoProvider
     ) -> String {
         let ids = self.get_devices_ids();
@@ -44,5 +60,13 @@ pub struct Room {
 impl Room {
     pub fn add_device(&mut self, device: &'static str) {
         self.devices.insert(device);
+    }
+
+    pub fn get_devices_names(&self) -> Vec<&str> {
+        let mut names = Vec::new();
+        for device_name in self.devices.iter() {
+            names.push(*device_name);
+        }
+        names
     }
 }
