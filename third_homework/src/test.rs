@@ -1,7 +1,7 @@
 
 
 #[cfg(test)]
-mod test {
+mod test_home {
     use std::collections::{HashSet, HashMap};
 
     use crate::{home::{Room, Home}};
@@ -48,10 +48,10 @@ mod test {
         let mut home = Home { rooms: HashMap::new() };
 
         home.add_room(room);
-        home.add_device(room_name, device_name);
-        home.add_device(room_name, device_name);
+        home.add_device(room_name, device_name).unwrap();
+        home.add_device(room_name, device_name).unwrap();
 
-        let devices_names = home.get_devices_names(room_name);
+        let devices_names = home.get_devices_names(room_name).unwrap();
 
         assert_eq!(devices_names.len(), 1);
     }

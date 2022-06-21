@@ -59,11 +59,11 @@ fn main() {
         _uy1200_01
     };
 
-    home.add_device("kitchen", so1200_01_name);
-    home.add_device("room", so1200_02_name);
+    home.add_device("loh", so1200_01_name).unwrap();
+    home.add_device("room", so1200_02_name).unwrap();
 
-    home.add_device("kitchen", the8200_01_name);
-    home.add_device("room", the8200_02_name);
+    home.add_device("kitchen", the8200_01_name).unwrap();
+    home.add_device("room", the8200_02_name).unwrap();
 
 
     let report1 = home.create_report(&devices_info_provider);
