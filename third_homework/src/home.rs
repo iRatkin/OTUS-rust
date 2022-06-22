@@ -16,8 +16,27 @@ impl Home {
         }
     }
 
+    pub fn delete_device(&mut self, room_name: &'static str, device_name: &'static str) -> Result<(), HomeError> {
+        let _rn = room_name.to_owned();
+        if let std::collections::hash_map::Entry::Occupied(_rn) = self.rooms.entry(room_name) {
+            self.rooms.entry(room_name).and_modify(|f| f.delete_device(device_name));
+            Ok(())
+        } else {
+            Err(HomeError { code: 1000, message: "Room with provided name does not exist".to_string() })
+        }
+    }
+
     pub fn add_room(&mut self, room: Room) {
         self.rooms.insert(room.name, room);
+    }
+
+    pub fn create_and_add_room(&mut self, name: &'static str) {
+        let room = Room { name, devices: HashSet::new() };
+        self.rooms.insert(room.name, room);
+    }
+
+    pub fn delete_room(&mut self, name: &'static str) {
+        self.rooms.remove(name);
     }
 
     pub fn get_devices_ids(&self) -> Option<Vec<String>>  {
@@ -64,8 +83,12 @@ pub struct Room {
 }
 
 impl Room {
-    pub fn add_device(&mut self, device: &'static str) {
-        self.devices.insert(device);
+    pub fn add_device(&mut self, device_name: &'static str) {
+        self.devices.insert(device_name);
+    }
+
+    pub fn delete_device(&mut self, device_name: &'static str) {
+        self.devices.remove(device_name);
     }
 
     pub fn get_devices_names(&self) -> Vec<&str> {

@@ -3,12 +3,15 @@ use std::collections::{HashMap, HashSet};
 use third_homework::{home::{Room, Home}, devices::{Socket, Thermometer}, provider::DevicesInfoProvider};
 
 fn main() {
-    let room = Room { name: "room", devices: HashSet::new() };
-    let kitchen = Room { name: "kitchen", devices: HashSet::new() };
+    const WRONG_ROOM_NAME: &str = "wrong";
+    const BEDROOM_NAME: &str = "room";
+    const KITCHEN_NAME: &str = "kitchen";
+
+    let room = Room { name: BEDROOM_NAME, devices: HashSet::new() };
     let mut home = Home { rooms: HashMap::new() };
 
     home.add_room(room);
-    home.add_room(kitchen);
+    home.create_and_add_room(KITCHEN_NAME);
 
     let so1200_01_name = "so1200_01";
     let so1200_02_name = "so1200_02";
@@ -59,12 +62,14 @@ fn main() {
         _uy1200_01
     };
 
-    home.add_device("loh", so1200_01_name).unwrap();
-    home.add_device("room", so1200_02_name).unwrap();
+    home.add_device(WRONG_ROOM_NAME, so1200_01_name).unwrap();
+    home.add_device(BEDROOM_NAME, so1200_02_name).unwrap();
 
-    home.add_device("kitchen", the8200_01_name).unwrap();
-    home.add_device("room", the8200_02_name).unwrap();
+    home.add_device(KITCHEN_NAME, the8200_01_name).unwrap();
+    home.add_device(BEDROOM_NAME, the8200_02_name).unwrap();
 
+
+    home.delete_device(KITCHEN_NAME, the8200_01_name).unwrap();
 
     let report1 = home.create_report(&devices_info_provider);
     println!("Report #1: {report1}");
